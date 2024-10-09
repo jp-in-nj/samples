@@ -1,0 +1,2156 @@
+<html>
+<head>
+
+<style>
+	html, body {
+		font-family: sans-serif;
+		color: #555555;
+		overflow: hidden;
+		height:100%;
+		margin: 10px;
+	}
+	p, div{
+		font-size: .85rem;
+	}
+	h1{
+		font-size: 1.5rem;
+	}
+	h2{
+		font-size:1.25rem;
+	}
+	li
+	{
+		padding-bottom:.75rem;
+	}
+	.subtitle
+	{
+		font-size:1.25rem;
+	}
+	
+	pre.preblock {
+	  background-color: #dae4f5;
+	  margin-left:25px;
+	  width: 75%;
+	  overflow: auto;
+	  border: 1px solid #bad4ff;
+	  white-space: pre-wrap; /* Ensures text wraps within the container */
+	  word-wrap: break-word; /* Allows long words to break if needed */
+	  padding: 10px; /* Add padding for better readability */
+	  box-sizing: border-box; /* Ensures padding doesn't add to width */
+	}
+
+  /* Screen styles */
+  .hidden {
+    display: none !important;
+  }
+
+  .visible {
+    display: block !important;
+  }
+
+/*Error Search Related*/
+  #errorSearch {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+.error-item {
+  margin: 15px 10px;
+  padding: 5px 10px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #0077cc;
+  border-radius: 5px;
+}
+
+  .error-item .label {
+    font-weight: bold;
+    color: #0077cc;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2px; /* Add space between error messages */
+}
+
+.flex-container.expanded {
+  display: block; /* Display when expanded */
+}
+
+.error-item.collapsed .label {
+  cursor: pointer;
+}
+
+.error-message {
+  background-color: #ffffff;
+  padding: 1px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.troubleshooting {
+  /*font-style: italic;*/
+  margin-top: .5em;
+}
+
+
+
+.troubleshooting::before {
+  content: "Troubleshooting: ";
+  color: #0077cc;
+}
+
+.troubleshooting {
+	/*margin-left: 9px;*/
+	line-height:1.25em;
+}
+
+.ts_dev::before {
+  content: "Development: ";
+  /*color: #0077cc;*/
+}
+
+.ts_dev {
+	margin-left:18px;
+}
+.ts_prod::before {
+	content: "Production: ";
+	/*color: #0077cc;*/
+}
+.ts_prod {
+	margin-left:18px;
+}
+
+.additional_ts::before {
+  content: "Additional information: ";
+  font-style: italic;
+  color: #0077cc;
+
+}
+.additional_ts{
+	clear:both;
+	width:100%;
+}
+.error_type {
+  font-weight: normal;
+  color: #555; /* You can adjust this to make it visually distinct but not bold */
+  margin-left: 5px;
+}
+
+.message-text::before, .message-text-multierror::before {
+	content: "Message Text: ";
+	color: #0077cc;
+
+}
+
+.message_text, message-text-multierror {
+	line-height:1.25em;
+
+}
+
+message-text-multierror {
+	margin-top:2em;
+}
+
+.explanation::before {
+	content: "Explanation: ";
+	color: #0077cc;
+}
+
+.explanation {
+	line-height:1.25em;
+}
+
+.nested_ul {
+	padding-top:1em;" 
+}
+
+  /*.error-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }*/
+
+
+
+ /* Styling for tabs */
+
+ 
+  .tabs {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+    cursor: pointer;
+  }
+
+  .tabs li {
+    padding: 10px 20px;
+    margin-right: 5px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+  }
+
+  .tabs li.active {
+    background-color: #ddd;
+    font-weight: bold;
+  }
+  
+  .master-tabs {
+  list-style-type: none;
+  display: flex;
+  padding: 0;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+.master-tabs li {
+  padding: 10px 20px;
+  margin-right: 5px;
+  background-color: #f0f0f0;
+  border: 1px solid #ddd;
+}
+
+.master-tabs li.active {
+  background-color: #ddd;
+  font-weight: bold;
+}
+
+.tab-section {
+  display: none;
+  /*background-color: rgba(255, 255, 0, 0.2);*/ /* Light yellow for visualization */
+}
+
+.tab-section.visible {
+  display: block;
+  margin-bottom:30px;
+}
+  
+  
+  /*Note styles*/
+ .note {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    border-left: 4px solid #0077cc;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+  }
+
+  .note-icon {
+    width: 24px;
+    height: 24px;
+    color: #0077cc;
+    margin-right: 15px;
+  }
+
+  .note-content {
+    flex: 1;
+  }
+
+  .note-content p {
+    margin: 0 0 10px;
+  }
+  
+  .wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px; /* Adjust as needed */
+  box-sizing: border-box;
+  margin-bottom:60px;
+}
+
+.feedback {
+  border: 1px solid gray;
+  border-radius: 10px;
+  background-color: white;
+  width: fit-content;
+  margin: 0px auto;
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  bottom: 0;
+  z-index: 100;
+}
+
+
+.feedback-wrapper {
+  background-color: #dae4f5; /* Set the margin area background color */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  text-align: center;
+  padding: 15px; /* Space around the feedback box */
+  z-index: 99;
+  border-top: 1px solid #bad4ff;
+}
+
+
+  .toplink {
+  	font-size: .65rem;
+  	float: right;margin-left: 10px;
+  	
+  }
+
+/* Print styles */
+@media print {
+  /* Hide all tabs, footer, typedown, and dropdown elements */
+  .tabs, .master-tabs, .feedback-wrapper, #errorSearch, #errorType {
+    display: none !important;
+  }
+
+  /* Hide unnecessary elements like navigation tabs */
+  .tabs li, .master-tabs li {
+    display: none !important;
+  }
+
+  /* Display all sections during printing */
+  .tab-section, .content {
+    display: block !important;
+  }
+
+  /* Remove visibility classes for print */
+  .hidden {
+    display: block !important;
+  }
+}
+  
+  @media (min-width: 600px) {
+	  .flex-container {
+		flex-direction: row;
+		flex-wrap: wrap;
+	  }
+
+	  .error-message {
+		flex: 1 1 calc(50% - 20px); /* Each error message takes half the container, with some space between */
+		margin: 10px;
+	  }
+	}
+</style>
+
+
+<script>
+
+  
+   //first entry of each error item gets a class assigned
+     document.addEventListener("DOMContentLoaded", () => {
+    const errorItems = document.querySelectorAll("#code_errors .error-item > p");
+
+    errorItems.forEach(item => {
+      item.className="label";
+
+    });
+  });
+  //first of each error message's text gets a class assigned
+  document.addEventListener("DOMContentLoaded", () => {
+	  const errorMessages = document.querySelectorAll(".error-message");
+
+	  errorMessages.forEach(message => {
+			const firstChild = message.firstElementChild;
+			if (firstChild) {
+			  firstChild.classList.add("message_text");
+			}
+	  });
+	});
+	//insert data-attribute text
+	
+	document.addEventListener("DOMContentLoaded", () => {
+	  const errorItems = document.querySelectorAll(".error-item");
+
+	  errorItems.forEach(item => {
+		const label = item.querySelector(".label");
+		if (label) {
+		  const dataAttribute = item.getAttribute("data-attributes");
+		  const instoreAttribute = item.getAttribute("instore");
+		  let descriptionText = '';
+
+		  // Determine the text to add based on the data-attribute
+		  if (dataAttribute === "PayEP") {
+			descriptionText = "Payments endpoint";
+		  } else if (dataAttribute === "SDKPayEP") {
+			descriptionText = "SDK and Payments endpoints";
+		  } 
+
+		  if (instoreAttribute && instoreAttribute.toLowerCase() === "true") {
+		  	descriptionText += " — In-store Only";
+		  } 
+
+		  if (descriptionText) {
+			const span = document.createElement("span");
+			span.className = "error_type";
+			span.textContent = ` [${descriptionText}]`; // Add brackets around the text
+			
+			label.appendChild(span);
+			
+		  }
+		}
+	  });
+	});
+
+	//Typedown functionality
+	document.addEventListener("DOMContentLoaded", () => {
+    const searchInput = document.getElementById("errorSearch");
+    const errorItems = document.querySelectorAll(".error-item");
+    const errorTypeSelect = document.getElementById("errorType");
+
+	function filterErrors() {
+	  const filter = searchInput.value.toLowerCase();
+	  const selectedType = errorTypeSelect.value.toLowerCase();
+
+	  errorItems.forEach(item => {
+		const dataAttributes = item.getAttribute("data-attributes").toLowerCase();
+		const inStore = item.getAttribute("instore")?.toLowerCase() === "true";
+		const textMatch = item.textContent.toLowerCase().includes(filter);
+
+		// Determine if the item matches based on the selected type
+		let typeMatch = false;
+
+		if (selectedType === "all") {
+		  typeMatch = true; // All items should match
+		} else if (selectedType === "instore") {
+		  typeMatch = inStore; // Only match if in-store is true
+		} else if (selectedType === "payep") {
+		  typeMatch = dataAttributes === "payep"; // Exact match for Endpoint-only Errors
+		} else {
+		  typeMatch = dataAttributes.includes(selectedType);
+		}
+
+		// Show item if both text and type match
+		if (textMatch && typeMatch) {
+		  item.classList.remove("hidden");
+		} else {
+		  item.classList.add("hidden");
+		}
+	  });
+	}
+
+	// Updated event listeners to trigger the modified filter
+	searchInput.addEventListener("input", filterErrors);
+	errorTypeSelect.addEventListener("change", filterErrors);
+
+	  });
+
+document.addEventListener("DOMContentLoaded", () => {
+  // Handle master tabs switching between sections
+  const masterTabs = document.querySelectorAll(".master-tabs li");
+  const tabSections = document.querySelectorAll(".tab-section");
+
+  masterTabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      // Remove active class from all master tabs and hide all tab sections
+      console.log("Switching tabs...");
+      masterTabs.forEach((t) => t.classList.remove("active"));
+      tabSections.forEach((section) => {
+        console.log(`Hiding section with ID: ${section.id}`);
+        section.classList.remove("visible");
+        section.classList.add("hidden");
+      });
+
+      // Set active class to the clicked tab and show the corresponding section
+      tab.classList.add("active");
+      const tabName = tab.getAttribute("data-tab");
+      console.log(`Attempting to show section with ID: ${tabName}`);
+      const targetSection = document.getElementById(tabName);
+
+      if (targetSection) {
+        console.log(`Showing section with ID: ${tabName}`);
+        targetSection.classList.remove("hidden");
+        targetSection.classList.add("visible");
+      } else {
+        console.error(`Element with ID '${tabName}' not found.`);
+      }
+    });
+  });
+
+  // Handle existing tabs functionality within Errors By Category section
+  const categoryTabs = document.querySelectorAll("#category_errors .tabs li");
+  const contentDivs = document.querySelectorAll("#category_errors .tab-content");
+
+  categoryTabs.forEach((tab, index) => {
+    tab.addEventListener("click", () => {
+      // Remove 'active' class from all tabs and hide all content divs within this section
+      console.log("Switching inner tabs...");
+      categoryTabs.forEach((t) => t.classList.remove("active"));
+      contentDivs.forEach((div) => {
+        console.log(`Hiding content div ${index + 1}`);
+        div.classList.remove("visible");
+        div.classList.add("hidden");
+      });
+
+      // Add 'active' class to clicked tab and show the associated content
+      console.log(`Showing content div ${index + 1}`);
+      tab.classList.add("active");
+      contentDivs[index].classList.remove("hidden");
+      contentDivs[index].classList.add("visible");
+    });
+  });
+});
+
+	//add back to top links in every error item
+	document.addEventListener("DOMContentLoaded", () => {
+	   const errorItems = document.querySelectorAll(".error-item");
+
+	   errorItems.forEach(item => {
+		 // Create the anchor link element
+		 const topLink = document.createElement("a");
+		 topLink.href = "#top";
+		 topLink.textContent = "Go to top";
+		 topLink.classList.add("toplink");
+
+		 // Insert the link as the first child of the error-item div
+		 item.insertBefore(topLink, item.firstChild);
+	   });
+	 });
+
+
+  // Separate listener for the toggleAll functionality
+document.addEventListener("DOMContentLoaded", () => {
+  const toggleAllLink = document.getElementById("toggleAll");
+  const errorItems = document.querySelectorAll(".error-item");
+
+  // Function to toggle collapse/expand all
+  function toggleAll() {
+    const isCollapsing = toggleAllLink.textContent.trim() === "Collapse All";
+
+    errorItems.forEach(item => {
+      const flexContainer = item.querySelector(".flex-container");
+      if (isCollapsing) {
+        flexContainer.classList.remove("expanded");
+        flexContainer.style.display = "none";
+        item.classList.add("collapsed");
+      } else {
+        flexContainer.classList.add("expanded");
+        flexContainer.style.display = "block";
+        item.classList.remove("collapsed");
+      }
+    });
+
+    toggleAllLink.textContent = isCollapsing ? "Expand All" : "Collapse All";
+  }
+
+  // Add event listener for collapse/expand all link\
+  /*ERROR HERE*/
+  toggleAllLink.addEventListener("click", (e) => {
+    e.preventDefault();
+    toggleAll();
+  });
+});
+
+
+
+// Event listener for individual error item toggle
+document.addEventListener("DOMContentLoaded", () => {
+const errorItems = document.querySelectorAll(".error-item");
+
+  errorItems.forEach(item => {
+    const flexContainer = item.querySelector(".flex-container");
+    flexContainer.classList.add("expanded");
+    flexContainer.classList.remove("hidden");
+    item.classList.remove("collapsed");
+  });
+
+  // Set up individual toggle logic
+  errorItems.forEach(item => {
+    const label = item.querySelector(".label");
+    const flexContainer = item.querySelector(".flex-container");
+
+    label.addEventListener("click", () => {
+      setTimeout(() => {  // Adding a small delay to handle state transition properly
+        if (flexContainer.classList.contains("expanded")) {
+          flexContainer.classList.remove("expanded");
+          flexContainer.classList.add("hidden");
+          item.classList.add("collapsed");
+        } else {
+          flexContainer.classList.add("expanded");
+          flexContainer.classList.remove("hidden");
+          item.classList.remove("collapsed");
+        }
+      }, 50); // 50 ms delay
+    });
+  });
+});
+
+
+
+function printContent() {
+  const errorItems = document.querySelectorAll(".error-item");
+  let anyCollapsed = false;
+
+  // Check if any item is collapsed
+  errorItems.forEach(item => {
+    if (item.classList.contains("collapsed")) {
+      anyCollapsed = true;
+    }
+  });
+
+  if (anyCollapsed) {
+    // Prompt user if some items are collapsed
+    const shouldExpand = confirm("Expand collapsed items in the printout?");
+
+    if (!shouldExpand) {
+      // If user selects "no", print exactly as the current view
+      proceedWithPrint(false);
+    } else {
+      // If user selects "yes", print with all items expanded
+      proceedWithPrint(true);
+    }
+  } else {
+    // If no items are collapsed, proceed with print as-is
+    proceedWithPrint(false);
+  }
+}
+
+function proceedWithPrint(expandAll) {
+    // Extract tab information (data-tab values and their text) from the master tabs list
+    const masterTabs = document.querySelectorAll(".master-tabs li");
+    let tabInfo = {};
+
+    masterTabs.forEach(tab => {
+        const tabId = tab.getAttribute("data-tab");
+        const tabText = tab.textContent.trim();
+        if (tabId) {
+            tabInfo[tabId] = tabText;
+        }
+    });
+
+    // Gather the sections to include in the print version (tab sections and topmatter)
+    const sectionsToPrint = document.querySelectorAll(".tab-section, #topmatter");
+
+    // Open a new window for printing
+    let printWindow = window.open('', '_blank', 'width=800,height=600');
+
+    // Build the content for the new window
+    let contentHtml =  `
+        <html>
+        <head>
+            <title>Print Preview</title>
+            <style>
+	html, body {
+		font-family: sans-serif;
+		color: #555555;
+		height:100%;
+		margin: 10px;
+	}
+	p, div{
+		font-size: .85rem;
+	}
+	h1{
+		font-size: 1.5rem;
+	}
+	h2{
+		font-size:1.25rem;
+	}
+	h3{
+		font-size: 1.05rem;
+	}
+	li
+	{
+		padding-bottom:.75rem;
+	}
+	.subtitle
+	{
+		font-size:1.25rem;
+	}
+	
+	pre.preblock {
+	  background-color: #dae4f5;
+	  margin-left:25px;
+	  width: 75%;
+	  overflow: auto;
+	  border: 1px solid #bad4ff;
+	  white-space: pre-wrap; /* Ensures text wraps within the container */
+	  word-wrap: break-word; /* Allows long words to break if needed */
+	  padding: 10px; /* Add padding for better readability */
+	  box-sizing: border-box; /* Ensures padding doesn't add to width */
+	}
+
+
+
+/*Error Search Related*/
+  #errorSearch {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+  }
+
+.error-item {
+  margin: 15px 10px;
+  padding: 5px 10px;
+  background-color: #f9f9f9;
+  border-left: 4px solid #0077cc;
+  border-radius: 5px;
+}
+
+  .error-item .label {
+    font-weight: bold;
+    color: #0077cc;
+    margin-bottom: 10px;
+  }
+
+
+
+
+.error-message {
+  background-color: #ffffff;
+  padding: 1px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.troubleshooting {
+  /*font-style: italic;*/
+  margin-top: .5em;
+}
+
+
+
+.troubleshooting::before {
+  content: "Troubleshooting: ";
+  color: #0077cc;
+}
+
+.troubleshooting {
+	/*margin-left: 9px;*/
+	line-height:1.25em;
+}
+
+.ts_dev::before {
+  content: "Development: ";
+  /*color: #0077cc;*/
+}
+
+.ts_dev {
+	margin-left:18px;
+}
+.ts_prod::before {
+	content: "Production: ";
+	/*color: #0077cc;*/
+}
+.ts_prod {
+	margin-left:18px;
+}
+
+.additional_ts::before {
+  content: "Additional information: ";
+  font-style: italic;
+  color: #0077cc;
+
+}
+.additional_ts{
+	clear:both;
+	width:100%;
+}
+.error_type {
+  font-weight: normal;
+  color: #555; /* You can adjust this to make it visually distinct but not bold */
+  margin-left: 5px;
+}
+
+.message-text::before, .message-text-multierror::before {
+	content: "Message Text: ";
+	color: #0077cc;
+
+}
+
+.message_text, message-text-multierror {
+	line-height:1.25em;
+
+}
+
+message-text-multierror {
+	margin-top:2em;
+}
+
+.explanation::before {
+	content: "Explanation: ";
+	color: #0077cc;
+}
+
+.explanation {
+	line-height:1.25em;
+}
+
+.nested_ul {
+	padding-top:1em;" 
+}
+
+  /*.error-item {
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #f1f1f1;
+    border-radius: 5px;
+  }*/
+
+
+  
+  /*Note styles*/
+ .note {
+    display: flex;
+    align-items: flex-start;
+    background-color: #f9f9f9;
+    border-left: 4px solid #0077cc;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+  }
+
+  .note-icon {
+    width: 24px;
+    height: 24px;
+    color: #0077cc;
+    margin-right: 15px;
+  }
+
+  .note-content {
+    flex: 1;
+  }
+
+  .note-content p {
+    margin: 0 0 10px;
+  }
+`;
+
+if(expandAll === false)  {
+   contentHtml += `
+   
+   .flex-container {
+	 display: flex;
+	 flex-direction: column;
+	 gap: 2px; /* Add space between error messages */
+   }
+   `;
+
+   } else {
+   contentHtml += `
+   
+   .flex-container {
+	 display: block !important;
+	 flex-direction: column;
+	 gap: 2px; /* Add space between error messages */
+   }
+   `;
+}
+
+contentHtml += `
+		</style>
+        </head>
+        <body>
+            <h1>SDK</h1>
+    `;
+
+    // Iterate through each section and add the appropriate content
+    sectionsToPrint.forEach(section => {
+        // Clone the section to modify it without affecting the original DOM
+        let clone = section.cloneNode(true);
+
+        // Get the section ID and use it to determine the corresponding action
+        const sectionId = clone.getAttribute("id");
+
+
+		if (sectionId === "topmatter") {
+            // Add the entire innerHTML of the "topmatter" section to contentHtml
+            // Remove the "readernote" div if present
+            const readernote = clone.querySelector('#readernote');
+            if (readernote) {
+	            console.log("Removing readernote");
+                readernote.remove();
+            }
+            contentHtml += clone.innerHTML;
+            
+        } else if (tabInfo[sectionId]) {
+            // Add an H2 heading with the corresponding tab text for tab sections
+            contentHtml += `<h2>${tabInfo[sectionId]}</h2>`;
+
+            // Change all <h2> elements within the cloned section to <h3>
+            clone.querySelectorAll('h2').forEach(h2 => {
+                let h3 = document.createElement('h3');
+                h3.innerHTML = h2.innerHTML;
+                h2.parentNode.replaceChild(h3, h2);
+            });
+
+            // Remove the "utilities" div if present
+            const utilities = clone.querySelector('#utilities');
+
+            if (utilities) {
+                        console.log("removing utilities")
+                utilities.remove();
+            }
+            
+            
+
+            // Remove all "back to top" links
+            clone.querySelectorAll('a').forEach(anchor => {
+                if (anchor.textContent.trim().toLowerCase() === "go to top" || anchor.textContent.trim().toLowerCase() === "expand all" || anchor.textContent.trim().toLowerCase() === "collapse all") {
+console.log("found an anchor to remove")
+                    anchor.remove();
+                }
+            });
+			
+
+			
+            // Log the cloned content for debugging
+            console.log("Cloned Content for Section ID:", sectionId);
+			
+            // Append the modified section to the content
+            contentHtml += clone.outerHTML;
+        }
+    });
+
+    contentHtml += `
+            </body>
+        </html>
+    `;
+
+    // Write content to the new window and print it
+    printWindow.document.open();
+    printWindow.document.write(contentHtml);
+    printWindow.document.close();
+    printWindow.print();
+}
+ 
+
+ 
+</script>
+
+
+</head>
+<body>
+<div class="wrapper">
+<div class="content">
+  
+  <h1>SDK</h1>
+  <a name="top"></a>
+  <div id="printcontrol"><button onclick="printContent()" style="margin-bottom: 10px;float:right;margin-left:100px;">Print Page</button></div>
+  
+	 <div id="topmatter">
+		<p class="subtitle">Endpoint error documentation for SDK integrations</p>
+
+		<p>SDK integrations call both Payments API endpoints and SDK methods. Some errors apply only to Payments API endpoints, while others apply to both Payments API endpoints and SDK methods.</p>
+		<div class="note">
+			 <svg  class="note-icon" version="1.0" xmlns="http://www.w3.org/2000/svg"
+ width="512.000000pt" height="512.000000pt" viewBox="0 0 512.000000 512.000000"
+ preserveAspectRatio="xMidYMid meet">
+<metadata>
+Created by potrace 1.16, written by Peter Selinger 2001-2019
+</metadata>
+<g transform="translate(0.000000,512.000000) scale(0.100000,-0.100000)"
+fill="#000000" stroke="none">
+<path d="M2795 4583 c-96 -9 -364 -46 -530 -74 -511 -85 -892 -180 -1083 -269
+-156 -73 -255 -199 -269 -343 -5 -60 -9 -70 -32 -82 -36 -19 -88 -74 -100
+-108 -19 -50 -13 -108 19 -175 17 -35 30 -67 30 -71 0 -5 -18 -16 -40 -26 -23
+-10 -54 -34 -70 -52 -46 -52 -41 -85 35 -229 63 -119 64 -124 45 -134 -33 -17
+-60 -71 -60 -116 0 -31 15 -69 60 -155 98 -184 459 -911 678 -1364 183 -377
+209 -425 252 -466 57 -54 119 -79 199 -79 74 0 818 127 1346 230 110 21 344
+66 520 100 564 107 591 115 610 191 5 20 -8 45 -70 133 -42 59 -75 109 -73
+110 1 1 22 8 45 14 23 7 56 24 73 38 52 45 39 103 -47 207 -13 16 -23 38 -23
+49 0 12 -36 77 -80 144 -44 68 -80 128 -80 133 0 5 14 14 32 20 44 15 95 57
+113 91 8 16 15 53 15 83 0 58 28 5 -405 767 -444 779 -553 977 -667 1205 -76
+150 -97 178 -161 210 -45 22 -62 25 -146 23 -53 -1 -114 -3 -136 -5z m263 -67
+c47 -24 68 -56 160 -241 94 -187 293 -547 569 -1030 301 -527 453 -817 453
+-865 0 -72 -48 -113 -166 -144 -32 -8 -230 -52 -439 -96 -1242 -265 -1497
+-339 -1616 -467 -24 -26 -51 -59 -60 -72 -15 -23 -16 -21 -74 115 -45 107 -59
+152 -60 194 -2 70 -65 203 -231 485 -193 329 -278 524 -349 800 -42 164 -70
+344 -55 359 7 7 23 6 53 -4 38 -14 51 -29 142 -162 55 -81 126 -182 157 -225
+31 -43 108 -170 169 -283 62 -113 172 -313 244 -445 73 -132 170 -309 216
+-392 83 -151 84 -153 114 -147 17 4 32 8 33 9 4 3 -334 615 -496 900 -106 185
+-218 359 -286 445 -29 36 -81 112 -116 170 -37 59 -98 140 -142 187 -43 45
+-78 86 -78 91 0 16 -82 102 -112 118 -16 8 -48 19 -71 23 l-42 7 3 48 c1 27
+11 67 21 91 18 42 86 125 101 125 4 0 43 -62 86 -137 134 -237 411 -672 456
+-718 6 -5 -16 40 -47 100 -59 111 -113 206 -314 550 -100 171 -110 191 -95
+202 21 15 228 84 354 117 279 73 801 171 1106 207 239 29 225 35 341 -143 47
+-73 188 -285 312 -472 124 -186 262 -393 306 -460 163 -248 535 -935 535 -989
+0 -55 -9 -58 -530 -171 -538 -117 -686 -152 -955 -221 -293 -76 -338 -89 -330
+-97 3 -3 27 1 53 9 170 51 682 171 1272 298 399 85 454 99 485 119 39 26 47
+58 29 114 -28 85 -306 600 -456 847 -45 74 -403 615 -714 1078 -72 108 -108
+137 -169 137 -175 0 -908 -125 -1235 -211 -141 -37 -352 -105 -401 -130 -36
+-18 -49 -16 -49 6 0 16 131 75 251 113 331 106 1077 247 1454 276 79 6 184 -3
+213 -18z m-1987 -756 c29 -16 78 -87 90 -134 9 -33 8 -42 -5 -52 -39 -28 -8
+-269 68 -530 67 -228 144 -413 254 -606 101 -178 144 -267 232 -482 43 -105
+104 -253 135 -329 l58 -138 -40 -42 c-47 -49 -93 -116 -93 -135 0 -7 24 10 52
+38 64 63 112 92 214 129 77 28 442 123 674 176 193 44 841 174 1093 219 131
+24 240 46 243 49 6 5 -33 87 -41 87 -3 0 4 -18 15 -40 11 -22 16 -40 11 -40
+-5 0 -87 -11 -181 -25 -477 -69 -1221 -208 -1609 -301 -126 -30 -147 -33 -159
+-20 -13 12 -6 17 54 35 243 72 730 180 1449 321 171 33 334 65 363 71 68 14
+59 34 -12 24 -85 -11 -738 -131 -974 -179 -385 -79 -736 -163 -836 -202 -50
+-19 -55 -12 -13 20 121 93 550 205 1757 459 l205 43 73 -115 c40 -63 77 -120
+82 -125 6 -6 10 -23 10 -39 0 -38 -38 -53 -165 -62 -272 -19 -751 -87 -1100
+-156 -382 -76 -891 -216 -1019 -281 -111 -56 -196 -136 -227 -214 l-11 -29
+-15 35 c-27 63 -27 101 1 168 14 34 26 67 26 74 0 7 -45 107 -100 222 -70 144
+-100 219 -100 244 0 21 -12 64 -26 97 -14 33 -112 276 -219 540 -181 451 -274
+673 -394 945 -58 131 -65 183 -29 232 42 60 143 83 209 48z m-198 -433 c-10
+-6 -31 -24 -47 -41 l-28 -30 -19 23 c-34 42 -24 71 36 100 l39 19 19 -31 c18
+-29 18 -31 0 -40z m73 -109 c4 -13 42 -99 84 -193 43 -93 81 -181 85 -194 7
+-23 6 -24 -26 -17 -18 3 -37 10 -40 14 -9 8 -163 357 -173 390 -7 20 -4 22 28
+22 27 0 36 -5 42 -22z m-35 -341 c53 -97 58 -103 105 -121 27 -10 56 -22 64
+-26 21 -10 203 -414 363 -805 25 -60 75 -175 111 -254 36 -79 66 -156 66 -170
+0 -15 -7 -50 -16 -77 -9 -27 -18 -56 -20 -64 -3 -8 -22 22 -45 70 -160 341
+-441 908 -608 1227 -66 128 -121 242 -121 255 0 24 25 68 38 68 4 0 32 -46 63
+-103z m3398 -1104 c17 -25 31 -49 31 -53 0 -25 -50 -41 -220 -70 -369 -62
+-766 -140 -1120 -222 -241 -55 -741 -182 -836 -213 -82 -26 -114 -31 -114 -17
+0 5 -17 18 -39 30 -42 24 -127 30 -162 12 -33 -18 -21 7 19 38 87 69 227 122
+519 196 529 134 1061 228 1648 291 94 10 165 23 190 35 22 10 43 19 47 19 3 1
+20 -20 37 -46z m-166 -207 c-13 -29 -23 -36 -57 -41 -43 -7 -777 -133 -1106
+-190 -107 -19 -240 -43 -295 -55 -131 -26 -142 -24 -30 6 224 60 824 188 1370
+293 144 27 138 28 118 -13z m119 -85 c75 -95 79 -109 38 -131 -15 -8 -24 0
+-58 53 -48 75 -58 103 -42 122 7 8 13 15 15 15 1 0 22 -26 47 -59z m-135 -9
+l10 -38 -121 -23 c-156 -28 -259 -52 -253 -57 3 -3 91 10 196 28 l191 33 29
+-35 c17 -19 30 -40 31 -45 0 -6 -211 -51 -492 -104 -595 -112 -1563 -288
+-1633 -297 -48 -7 -49 -6 -34 12 9 10 26 37 37 59 l20 39 198 37 c233 43 229
+49 -10 14 -93 -14 -176 -25 -183 -25 -8 0 -13 12 -13 33 l0 34 88 21 c48 11
+110 24 137 27 131 17 1409 249 1680 304 50 11 95 19 101 20 6 1 16 -16 21 -37z
+m-1570 -218 c-3 -3 -12 -4 -19 -1 -8 3 -5 6 6 6 11 1 17 -2 13 -5z"/>
+<path d="M3057 4402 c15 -28 36 -62 46 -75 21 -26 -30 68 -56 104 -10 13 -5 0
+10 -29z"/>
+<path d="M1720 2755 c62 -121 193 -379 292 -572 166 -326 212 -410 173 -315
+-45 106 -547 1077 -567 1097 -6 6 40 -89 102 -210z"/>
+<path d="M3955 2080 c9 -16 18 -30 21 -30 2 0 -2 14 -11 30 -9 17 -18 30 -21
+30 -2 0 2 -13 11 -30z"/>
+<path d="M3887 1654 c-792 -119 -1807 -333 -1807 -380 0 -8 4 -14 9 -14 5 0
+100 22 212 49 360 88 1218 267 1534 321 132 22 245 42 250 45 25 9 -53 1 -198
+-21z"/>
+</g>
+</svg>
+			<p>Refer to the <a href="https://docs.samplecorp.app/reference/errors" title="Available information includes general information about Samplecorp errors, error codes that all endpoints can return, and error codes that endpoints common to all integration types can return.">general Errors reference</a> to learn more about Samplecorp errors.</p>
+	 </div>  
+  </div>
+  
+  <!-- Master tabs for switching between sections -->
+  <ul class="master-tabs">
+    <li data-tab="overview">Response Object Samples and General Information</li>
+	<li class="active" data-tab="code_errors">Errors By Code</li>
+	<!--<li data-tab="category_errors">Errors By Category</li>-->
+  </ul>
+  <!--Overview section-->
+  <div id="overview" class="tab-section">
+  	<h2>Retrying Payments</h2>
+	<p>If a payment fails, always attempt to process the original Payment object again before creating a new Payment object. <a href="https://docs.samplecorp.app/reference/update-a-payment" target="_new">Update</a> the  object first if necessary.</p>
+	<p>Create replacement Payment objects only if the existing payment has been canceled.</p>
+	
+  	<h2>Response Object: Endpoint Errors</h2>
+	<p>The Payments API error response object includes one or more <code>code</code> and <code>message</code> pairs that describe the failure, as in the following example:</p>
+	<pre class="preblock">
+     {
+      "path": "/api/payments/{payment_ref}/refunds/",
+      "errors": [
+        {
+        "code": "cannot_refund_after_90_days",
+        "message": "Per federal regulations, refunds to EBT payment methods cannot be processed after 90 days. Payment <payment_ref> succeeded on <payment_success_date>",
+        "source": {
+           "resource": "Payments",
+           "ref": "{payment_ref}"
+          }
+        }
+       ]
+      }
+	</pre>
+	
+	<h2>Response Object: EBT Error Codes</h2>
+	<p>Responses containing error codes that begin with <code>ebt_error</code> always include the original resource and the <code>errors</code> field.
+	<p>For example, an <code>ebt_error_43</code> returned in the case of a lost or stolen card might include the following:</p>
+	<pre class="preblock">
+   {
+    "ref": "55ca7f3c35",
+    "merchant": "9000034",
+    "funding_type": "ebt_snap",
+    "amount": "1.00",
+    "description": "Testing app payments (SNAP Purchase)",
+    "metadata": {},
+    "payment_method": "6sc7bcd229",
+    "delivery_address": null,
+    "is_delivery": false,
+    "created": "2024-05-07T11:04:58.967491-07:00",
+    "updated": "2024-05-07T11:05:15.432620-07:00",
+    "status": "failed",
+    "last_processing_error": null,
+    "success_date": null,
+    "receipt": {
+        "ref_number": "55ca7f3c35",
+        "is_voided": false,
+        "snap_amount": "1.00",
+        "ebt_cash_amount": "0.00",
+        "cash_back_amount": "0.00",
+        "other_amount": "0.00",
+        "sales_tax_applied": "0.00",
+        "balance": null,
+        "last_4": "4443",
+        "message": "Lost/stolen card - Cannot Process - Call Customer Service",
+        "transaction_type": "Payment",
+        "created": "2024-05-07T11:05:15.427552-07:00",
+        "sequence_number": "PA022ba7"
+    },
+    "expires_at": "2024-05-07T18:35:15.432620Z",
+    "pos_terminal": {
+        "terminal_id": "0783f5a4",
+        "provider_terminal_id": "Android Emulator"
+    },
+    "sequence_number": "PA022ba7",
+    "external_location_id": null,
+    "merchant_destination_account": null,
+    "errors": [
+        {
+            "code": "ebt_error_43",
+            "message": "Lost/stolen card - Cannot Process - Call Customer Service",
+            "source": {
+                "resource": "Payments",
+                "ref": "55ca7f3c35"
+            }
+        }
+    ],
+    "previous_errors": [
+        {
+            "code": "ebt_error_43",
+            "message": "Lost/stolen card - Cannot Process - Call Customer Service",
+            "source": {
+                "resource": "Payments",
+                "ref": "55ca7f3c35"
+            }
+        }
+    ],
+    "refunds": []
+   }
+	</pre>
+	<p>The <code>Payment</code> details precede the <code>errors</code> details.</p>
+	
+	<h2>Response Object: EBT Insufficient Funds</h2>
+	<p>The EBT error object might resemble the following:</p>
+	<pre class="preblock">
+   {
+    "ref": "414d656d28",
+    "merchant": "9000034",
+    "funding_type": "ebt_snap",
+    "amount": "1.00",
+    "description": "Testing POS certification app payments (SNAP Purchase)",
+    "metadata": {},
+    "payment_method": "5d96ef34ac",
+    "delivery_address": null,
+    "is_delivery": false,
+    "created": "2024-05-07T09:02:39.151663-07:00",
+    "updated": "2024-05-07T09:03:02.312241-07:00",
+    "status": "failed",
+    "last_processing_error": null,
+    "success_date": null,
+    "receipt": {
+        "ref_number": "414d656d28",
+        "is_voided": false,
+        "snap_amount": "1.00",
+        "ebt_cash_amount": "0.00",
+        "cash_back_amount": "0.00",
+        "other_amount": "0.00",
+        "sales_tax_applied": "0.00",
+        "balance": {
+            "id": 231529,
+            "snap": "1000.00",
+            "non_snap": "1000.00",
+            "updated": "2024-05-07T09:03:02.281341-07:00"
+        },
+        "last_4": "4451",
+        "message": "Insufficient funds - Insufficient Funds. Remaining balances are SNAP: $1000.00, EBT Cash: $1000.00",
+        "transaction_type": "Payment",
+        "created": "2024-05-07T09:03:02.303324-07:00",
+        "sequence_number": "PA022b56"
+    },
+    "expires_at": "2024-05-07T16:33:02.312241Z",
+    "pos_terminal": {
+        "terminal_id": "0783f5a4",
+        "provider_terminal_id": "Android Emulator"
+    },
+    "sequence_number": "PA022b56",
+    "external_location_id": null,
+    "merchant_destination_account": null,
+    "errors": [
+        {
+            "code": "ebt_error_51",
+            "message": "Insufficient funds - Insufficient Funds. Remaining balances are SNAP: $1000.00, EBT Cash: $1000.00",
+            "source": {
+                "resource": "Payments",
+                "ref": "414d656d28"
+            },
+            "details": {
+                "cash_balance": "1000.00",
+                "snap_balance": "1000.00"
+            }
+        }
+    ],
+    "previous_errors": [
+        {
+            "code": "ebt_error_51",
+            "message": "Insufficient funds - Insufficient Funds. Remaining balances are SNAP: $1000.00, EBT Cash: $1000.00",
+            "source": {
+                "resource": "Payments",
+                "ref": "414d656d28"
+            },
+            "details": {
+                "cash_balance": "1000.00",
+                "snap_balance": "1000.00"
+            }
+        }
+    ],
+    "refunds": []
+   } 	
+	</pre>
+	
+  </div>
+  <!-- Errors By Code Section -->
+  <div id="code_errors" class="tab-section visible">
+<div id="utilities">
+	   <input type="text" id="errorSearch" placeholder="Begin typing to filter errors..." style="width:30%;">
+	   <label for="errorType">Search:</label>
+	   <select id="errorType">
+		 <option value="all">All Errors</option>
+		 <option value="PayEP">Endpoint-only Errors</option>
+		 <option value="SDKPayEP">SDK and Endpoint Errors</option>
+		 <option value="instore">In-store-only Errors</option>
+	   </select>
+    </div>  
+  
+	<div id="errorList">
+	<div><a href="#" id="toggleAll" class="collapse-expand">Collapse All</a></div>
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">amount_mismatch</p> 
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Payment amount needs to equal to products amount. Payment amount: {payment_amount}, products amount: {products_amount}.</p>
+			<p class="troubleshooting">Prompt the cardholder to update the <code>payment_amount</code> to match the <code>products_amount</code>.</p>
+		  </div>
+		</div>
+	  </div>
+	  
+	   <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">cannot_capture_payment</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			  <p class="message-text">One of the following:</p>
+			  <ul>
+			  
+				  <li>Payment with ref {payment_ref} is either processing, succeeded, or canceled and therefore cannot be captured.
+					
+					 <div class="troubleshooting">Do either or both of the following:
+				     <ul class="nested_ul">
+					   <li>Confirm that the <code>payment.status</code> is correct before capturing the payment.</li>
+					   <li>Verify the accuracy of the provided payment_ref.</li>
+					 </div>
+				  </li>
+				  <li>Amount value is null. Payment with ref {payment.ref} with funding_type {payment.funding_type} cannot be captured with a null amount value.	  
+					 <div class="troubleshooting">Do either or both of the following:
+					   <ul class="nested_ul">
+						    <li>Confirm that the <code>payment.funding_type</code> is correct before capturing the payment.</li>
+					   <li>Verify the accuracy of the provided <code>payment_ref</code>.</li>
+					   </ul>
+					 </div>				
+				  </li>
+				  <li>'is_delivery' value is null. Payment with ref {payment.ref} requires a valid 'is_delivery' value for capture.	  
+					 <div class="troubleshooting">Do either or both of the following:
+					   <ul class="nested_ul">
+						    <li>Confirm that the <code>payment.is_delivery</code> is correct before capturing the payment.</li>
+					   <li>Verify the accuracy of the provided <code>payment_ref</code>.</li>
+					   </ul>
+					 </div>				
+				  </li>
+			  </ul>
+		  </div>
+		</div>
+	  </div>		
+	  
+	  
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">cannot_refund_after_90_days</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Per federal regulations, refunds to EBT payment methods cannot be processed after 90 days. Payment {payment_ref} succeeded on {payment_success_date}</p>
+			<div class="troubleshooting">
+			<p class="ts_dev">Confirm that the <code>payment_ref</code> in the request is accurate.</p>
+			<p class="ts_prod">Alert the customer or merchant clerk in the front-end user interface that the refund date has passed.</p>
+			</div>
+		  </div>
+		</div>
+	  </div>
+  
+  
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		  <p class="label">cannot_refund_payment</p>
+
+		  <div class="flex-container">
+			  <div class="error-message">
+				  <p class="message-text">One of the following:</p>
+				  <ul>
+					  <li>Only Payments in the succeeded state can be refunded, but Payment with ref {payment_ref} is in the state {payment_state}</li>
+					  <li>Only Payments with a non-null amount can be refunded, but Payment with ref {} has no amount provided.</li>
+					  <li>Refund for payment ref {} misses a pin. Please use the SDK to collect pin first.</li>
+				  </ul>
+				  <div class="troubleshooting">
+					  <p class="ts_dev">Confirm that the <code>payment_ref</code> in the request is accurate.</p>
+					  <p class="ts_prod">Alert the customer or merchant clerk in the front-end user interface that the refund date has passed.</p>
+				  </div>
+			  </div> <!-- Closing error-message -->
+		  </div> <!-- Closing flex-container -->
+	  </div> <!-- Closing error-item -->
+
+	
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">cannot_void</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Payment with ref {payment_ref} cannot be voided because it is in the {payment_state} state. Only payments in the succeeded state can be voided.</p>
+			<div class="troubleshooting">Do either or both of the following:
+				   <ul>
+					   <li>Confirm that the <code>payment_ref</code> in the request is accurate and that its status value is succeeded.</li>
+					   <li>Confirm that the <code>refund_ref</code> in the request is accurate and that its status value is succeeded.</li>
+				   </ul>
+			  </div>
+		  </div>
+		</div>
+	  </div>
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">card_not_reusable</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Payment method {payment_method_ref} is not reusable</p>
+			<p class="explanation">The payment method is invalid because it was previously used, and is not reusable.</p>
+			<p class="troubleshooting">Prompt the cardholder to try the transaction again with a valid payment method.</p>
+		  </div>
+		
+		</div>
+	  </div>
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">different_ebt_card</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">SNAP payment method ref {payment_method_ref} is different from EBT Cash payment method ref {payment_method_ref}. You must use the same EBT payment_method for all EBT Payments on an Order.</p>
+			<p class="troubleshooting">Prompt the cardholder to re-enter their EBT card details.</p>
+		  </div>
+		</div>
+	  </div>
+	  <div class="error-item" data-attributes="PayEP" instore="false">
+		<p class="label">ebt_cash_not_supported</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Ebt cash payment cannot be captured in {US State}</p>
+			<p class="troubleshooting">Prompt the cardholder to update their payment method and try again.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_02</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			  <p class="message-text">Bad ABC status for merchant - Cannot Process - Call Customer Service</p>
+			  <p class="explanation">The issue is between the merchant and ABC.</p>
+			  <div class="troubleshooting">
+				  <ol>
+					  <li>Verify that the <a href="">ABC number</a> in the Merchant-Account header is accurate.
+					  <div style="background-color:cornsilk">Show ABC number in header on click</div>
+					  </li>
+					  <li>If the number is accurate, contact ABC or your Samplecorp account manager.</li>
+				  </ol>
+			  </div>
+		  </div>
+		</div>
+	  </div>	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_03</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p>Invalid merchant - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The merchant's ABC number is invalid.</p>
+			<div class="troubleshooting">
+			  <ol>
+				  <li>Verify that the <a href="">ABC number</a> in the <code>Merchant-Account</code> header is accurate.
+					 <div style="background-color:cornsilk">Show ABC number in header on click</div>
+				  </li>
+				  <li>If the number is accurate, contact ABC or your Samplecorp account manager.</li>
+			  </ol>
+			</div>
+		  </div>		
+		</div>
+	  </div>
+		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_05</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">General denial - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network cannot complete the transaction.</p>
+			<p class="troubleshooting">Contact ABC or your Samplecorp account manager.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_06</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid transaction - Invalid Transaction</p>
+			<p class="explanation">The EBT network cannot complete the transaction.</p>
+			<p class="troubleshooting">Contact ABC or your Samplecorp account manager.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_10</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Partial approval - Approved</p>
+			<p class="explanation">The EBT network was unavailable during an in-store transaction, but the brick-and-mortar merchant treated the transaction as a success, following the “store and forward” protocol. When the EBT network came back online, the merchant attempted to process the transaction, but the EBT card had insufficient funds. The merchant collects the entire available balance, and the network returns an <code></code>. </p>
+			<p class="troubleshooting">Per ABC regulations, in this rare case the merchant absorbs any outstanding balance as a loss.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_12</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid transaction type - Transaction Not Defined</p>
+			<p class="explanation">The EBT network can’t complete the transaction.</p>
+			<p class="troubleshooting">Contact ABC or your Samplecorp account manager.</p>
+		  </div>
+		
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_13</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Inactive Card - Call number on EBT Card</p>
+			<p class="explanation">The card is inactive and cannot be used.</p>
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_14</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid card number - Re-enter Transaction</p>
+			<p class="explanation">The entered card number is invalid.</p>		
+			<p class="troubleshooting">Re-enter the transaction.</p>
+		  </div>
+		</div>
+	  </div>		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_19</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid Card Number - Please re-enter</p>
+			<p class="explanation">The entered card number is invalid.</p>		
+			<p class="troubleshooting">Re-enter the transaction.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_23</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Unacceptable transaction fee - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network cannot complete the transaction because the transaction fee exceeds the maximum established by the state program.</p>		  
+			<p class="troubleshooting">Adjust the fee and re-enter the transaction.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_30</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Card has invalid ISO prefix - Cannot Process - Call Customer Service</p>
+			<p class="explanation">Samplecorp and the EBT network are having trouble communicating. This error is extremely rare.</p>		  
+			<p class="troubleshooting">Re-enter the transaction.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_40</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Function not available - Function Unavailable</p>
+			<p class="explanation">The EBT network can’t complete the transaction.</p>		  
+			<p class="troubleshooting">Re-enter the transaction.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_41</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Lost Card - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network associates the card number with a lost card.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_42</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">No account - Cannot Process - Call Customer Service</p>
+			<p class="explanation">There is an issue with the EBT card number.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_43</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Lost/stolen card - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network associates the card number with a lost or stolen card.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_51</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Insufficient funds - Insufficient Funds. Remaining balances are SNAP: {number}, EBT Cash: {number}</p>
+			<p class="explanation">The EBT and/or SNAP charges exceed the customer’s available EBT Card balance. </p>		  
+			<p class="troubleshooting"> Update the transaction amounts to match the available balance. For additional details, review the <a href="https://docs.samplecorp.app/docs/plan-for-insufficient-ebt-funds-errors" target="_new">Samplecorp insufficient funds guide</a>.</p>
+		  </div>
+		  <p class="additional_ts">For a sample error, see the <u>Response Object: EBT Insufficient Funds</u> section of the Response Object Samples tab.</p>
+		  <p style="background-color:cornsilk">Note to evaluator: Ideally I'd have a link to the section, but I couldn't figure out how to do that gracefully in the available time.</p>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_52</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Inactive Card - Call number on EBT Card</p>
+			<p class="explanation">The EBT network associates the card number with an inactive card.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_54</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Inactive Card - Call number on EBT Card</p>
+			<p class="explanation">The EBT network associates the card number with an expired card.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_55</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid PIN or PIN not selected - Invalid PIN</p>
+			<p class="explanation">The EBT PIN that the customer entered is incorrect.</p>		  
+			<p class="troubleshooting">Retry the transaction with the correct PIN.</p>
+		  </div>
+		</div>
+	  </div>		
+
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_56</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Card number not found - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network doesn’t recognize the customer’s EBT Card number.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_57</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Inactive Card - Call number on EBT Card</p>
+			<p class="explanation">The EBT network associates the card number with an inactive card.</p>		    
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_58</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid transaction - Invalid Transaction</p>
+			<p class="explanation">The EBT network can’t complete the transaction because  the transaction is invalid.</p>		  
+			<p class="troubleshooting">Enter a valid transaction.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_59</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Fraud (return card) - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network associates the customer’s EBT Card number with unusual activity.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_61</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Return exceeds benefit authorization - Invalid Transaction</p>
+			<p class="explanation">The customer has attempted to return goods valued higher than allowed by the issuer’s limit.</p>		  
+			<p class="troubleshooting">Retry the transaction with a smaller return value.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_62</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Restricted card - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network is reporting an issue with the EBT Card.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_75</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">PIN tries exceeded - PIN Tries Exceeded</p>
+			<p class="explanation">The customer entered an incorrect PIN four times. As a result, the EBT network canceled the transaction and locked the account for 24 hours.</p>		  
+			<div class="troubleshooting">Do either or both of the following:
+				<ul>
+				  <li>Call the customer service number on the EBT card to reset the PIN.</li>
+				  <li>Wait 24 hours and then retry the transaction.</li>
+				</ul>
+			</div>
+		  </div>
+	
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_76</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Key synchronization error - Cannot Process - Call Customer Service</p>
+			<p class="explanation">Samplecorp and ABC are having trouble communicating.</p>		  
+			  <div class="troubleshooting">Do either or both of the following:
+				<ul>
+				  <li>Wait 10 minutes and retry the transaction.</li>
+				  <li>Call the customer service number on the EBT card.</li>
+				</ul>
+			  </div>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_80</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Voucher expired - Cannot Process - Call Customer Service
+
+  </p>
+			<p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has reported that the voucher has expired.</p>		  
+			<p class="troubleshooting">Contact the voucher issuer to learn if the voucher can be reissued.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_90</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Processor not logged on - Host Not Available</p>
+			<p class="explanation">The EBT network is currently offline.</p>
+			<p class="troubleshooting">Wait 10 minutes and retry the transaction.</p>			 
+		  </div>
+		</div>
+	  </div>		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_91</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Authorizer not available (time-out) - Host Not Available
+
+  </p>
+			<p class="explanation">The EBT network is currently offline.</p>
+			<p class="troubleshooting">Wait 10 minutes and retry the transaction.</p>			 
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_92</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid Card Number - Please re-enter
+
+  </p>
+			<p class="explanation">The EBT system does not recognize the EBT card number.</p>		  
+			  <div class="troubleshooting">
+				<ol>
+				  <li>Verify the card number and retry the transaction.</li>
+				  <li>Call the customer service number on the EBT card.</li>
+				</ol>
+			  </div>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_96</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">System malfunction - Cannot Process - Call Customer Service</p>
+			<p class="explanation">The EBT network cannot complete the transaction.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_A1</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			  <p class="message-text">Invalid Voucher ID - Invalid Transaction</p>
+			  <p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has reported that the voucher ID is invalid.</p>		  
+			  <p class="troubleshooting">Call the customer service number on the EBT card to  learn if the voucher can be reissued.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_A2</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			  <p class="message-text">Invalid authorization number (approval code does not match voice approval code) - Invalid Transaction</p>
+			  <p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has reported an issue with the voucher authorization number.</p>		  
+			  <p class="troubleshooting">Call the customer service number on the EBT card to learn if the voucher can be reissued.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_A3</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Amount greater than original voice authorization - Invalid Transaction</p>
+			<p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has reported an issue with the authorized transaction amount.</p>		  
+			  <p class="troubleshooting">Call the customer service number on the EBT card to clarify the authorized transaction amount and to learn if the voucher can be reissued if it was issued in the incorrect amount.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_A4</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Original voice authorization not found for cardholder - Invalid Transaction</p>
+			<p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has reported an issue authenticating the cardholder's identity.</p>		  
+			  <p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>	
+		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_A5</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">ABC number does not match original voice authorization - Invalid Transaction</p>
+			<p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has reported an issue authenticating the merchant ABC number.</p>		  
+			  <p class="troubleshooting">Contact ABC or your Samplecorp account manager.</p>
+		  </div>
+		</div>
+	  </div>			
+
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_error_A6</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Item already cleared - Invalid Transaction</p>
+			<p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has failed to process a voucher.</p>		  
+			  <p class="troubleshooting">Contact ABC or your Samplecorp account manager.</p>
+		  </div>
+		</div>
+	  </div>	
+		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_FF</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Invalid HIP Amount - Re-enter Transaction</p>
+			<p class="explanation">The Healthy Incentives Program (HIP) benefits amount that the customer entered is not authorized.</p>		  
+			<p class="troubleshooting">Retry the transaction.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_S5</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Inactive Card - Call number on back of EBT Card to activate</p>
+			<p class="explanation">The EBT card has not yet been activated.</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card to activate the card.</p>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_error_S6</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">PIN already selected - PIN Already Selected
+
+  </p>
+			<p class="explanation">The EBT network cannot process the transaction beacuse of an issue with the Personal Identification Number (PIN).</p>		  
+			<p class="troubleshooting">Call the customer service number on the EBT card.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="true">
+		<p class="label">ebt_err_57</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Unmatched voucher information - Unmatched Voucher Information</p>
+			 <p class="explanation">Retailers accept vouchers to manually process SNAP purchases or refunds if a working Point of Sale (POS) terminal is unavailable. This message indicates that the EBT network has encountered an issue with the voucher details as they were entered into the system.</p>		  
+			  <p class="troubleshooting">Verify the voucher details and retry the transaction.</p>	  
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">ebt_processor_timeout</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Unable to contact EBT processor, please try again shortly.</p>
+			<p class="explanation">The EBT processing system was unavailable.</p>		  
+			<p class="troubleshooting">Wait five minutes, and then retry the transaction.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">expired_session_token</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">This token has expired</p>
+			<p class="explanation">Calling the <a href="https://docs.samplecorp.app/docs/capture-ebt-payments-server-side#step-2-collect-a-customers-ebt-card-pin-front-end" target="_new">deferPaymentCapture</a> function to capture an EBT PIN for future use may return this error code.</p>		  
+			<p class="troubleshooting">Send a POST to <a href="https://docs.samplecorp.app/reference/create-session-token" target="_new">/session_token/</a> to generate a new session token.</p>
+		  </div>
+		  <p class="additional_ts">For information about how rate limits may affect new session token generation, see the <a href="https://docs.samplecorp.app/reference/request-limits" target="_new">request limits</a> documentation.</p>
+		</div>
+	  </div>	
+	
+		
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">fixed_settlement_not_applicable</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">The merchant_fixed_settlement and platform_fixed_settlement fields are only applicable to EBT Cash Payments.</p>
+			<p class="explanation">The request is currently configured to use either or both of the <code>merchant_fixed_settlement</code> and <code>platform_fixed_settlement</code> fields. Only the EBT Cash Payment funding type uses these fields; other funding types return this error message if these fields are present.</p>		  
+			<div class="troubleshooting">Do either of the following:
+			  <ul>
+				  <li>Remove the <code>merchant_fixed_settlement</code> and <code>platform_fixed_settlement</code> fields from the request.</li>
+				  <li>Update the payment <code>funding_type</code> to EBT Cash Payment.</li>
+			  </ul>
+			</div>		  
+		  </div>		
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">inconsistent_funding_and_payment_method</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			  <p class="message-text">One of the following:</p>
+			  <ul>
+			  
+				  <li>Payment was posted with a funding_type of {funding_type}, but the payment_method is {other_funding_type} card.
+					 <p class="explanation">The payment method and funding type must match.</p>		  
+					 <div class="troubleshooting">Do either of the following:
+					   <ul class="nested_ul">
+						   <li >Update the payment <code>funding_type</code> to match the <code>payment_method</code>.</li>
+						   <li>Update the <code>payment_method</code> to match the <code>funding_type</code>.</li>
+					   </ul>
+					 </div>
+				  </li>
+				  <li>Payment with ref {payment_ref} has already been submitted for capture and therefore cannot be canceled. To reverse this payment, please use a normal refund.
+					 <p class="explanation">The payment identified by the payment_ref has been submitted to the EBT network and cannot be canceled.</p>		  
+					 <div class="troubleshooting">Do either of the following:
+					   <ul class="nested_ul">
+						   <li>Verify that the correct <code>payment_ref</code> was passed in the cancellation request.</li>
+						   <li>Refund the payment by creating a call to the <a href="https://docs.samplecorp.app/reference/create-payment-refund" target="_new">Create a Payment Refund</a> endpoint.</li>
+					   </ul>
+					 </div>				
+				  </li>
+			  </ul>
+		  </div>
+		</div>
+	  </div>		
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">payment_already_captured</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Payment with ref {payment_ref} has already been submitted for capture and therefore cannot be canceled. To reverse this payment, please use a normal refund.</p>
+			<p class="explanation">The payment identified by the <code>payment_ref</code> has been submitted to the EBT network and cannot be canceled.</p>		  
+			<div class="troubleshooting">Do either of the following:
+			  <ul>
+				  <li>Verify that the correct <code>payment_ref</code> was passed in the cancellation request.</li>
+				  <li>Refund the payment by creating a call to the <a href="https://docs.samplecorp.app/reference/create-payment-refund" target="_new">Create a Payment Refund</a> endpoint.</li>
+			  </ul>
+			</div>			
+		  </div>
+		</div>
+	  </div>
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">pin_caching_error</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Unable to cache encrypted PIN value</p>
+			<p class="explanation">The operation to cache the encrypted PIN value used the incorrect SDK method.</p>		  
+			<p class="troubleshooting">Use the appropriate SDK method to cache the encrypted PIN value.</p>
+		  </div>
+		</div>
+	  </div>
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">pin_retrieval_error</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+		  <p class="message-text">One of the following:</p>
+			  <ul>
+				  <li>Unable to retrieve encrypted PIN value
+					 <p class="explanation">The operation was unable to retrieve an encrypted PIN value, potentially because the incorrect SDK method was used for the attempt.</p>		  
+				  </li>
+				  <li>Unable to find encrypted PIN for key value
+					 <p class="explanation">The operation was unable to find an encrypted PIN value, potentially because the incorrect SDK method was used for the attempt.</p>		  
+				  </li>	
+				  <li>Refund for payment ref {payment_ref} requires a pin which is missing
+					 <p class="explanation">The operation was unable to identify a PIN value, potentially because the incorrect SDK method was used for the attempt.</p>		  
+				  </li>
+			  </ul>
+			  <div class="troubleshooting">
+			  <ol>
+				   <li>Update the code to use the correct <a name="ts1" title="Link to appropriate SDK method page" href="#ts1">SDK method</a>.</li>
+				   <li>Retry the transaction.</li>
+			  </ol>
+			  </div>
+		  </div>
+		  
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">processor_timeout</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">External processor timed out</p>
+			<p class="explanation">Samplecorp did not receive a response from the EBT network. </p>		  
+			<p class="troubleshooting">Retry the request as many times as necessary, exponentially increasing the wait time after each retry to allow the system time to regain availability.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">refund_exceeds_order_total</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<div class="message-text">One of the following:
+				  <ul>
+					  <li>Requested refund would push the total amount refunded above the original Payment amount. Total amount paid is {amount_paid}. Existing total of refunds is {refund_amount}</li>
+					  <li>Requested refund would push the total amount settled to the Merchant above the original Payment amount. Total fixed amount allocated to the Merchant is {}. Existing total of refunds is {}</li>
+					  <li>Requested refund would push the total amount settled to the Platform above the original Payment amount. Total fixed amount allocated to the Platform is {}. Existing total of refunds is {}</li>
+					  <li>Must allocate funds to merchant_fixed_settlement and platform_fixed_settlement correctly. Merchant funds to be allocated: {merchant_fixed_amount_still_available_for_refund}, Platform funds to be allocated: {platform_fixed_amount_still_available_for_refund}</li>
+					  <li>Refund must be greater than zero!</li>
+				  </ul>
+			</div>
+			<p class="explanation">The refund must be greater than $0.00, and must not exceed the original payment amount.</p>		  
+			<p class="troubleshooting">Confirm that the requested refund amount is not $0.00 and is less than or equal to the original payment amount, and then try the refund again.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">resource_not_found</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">{Resource type} with ref {ref} does not exist for current Merchant with ABC {fns_number}</p>
+			<p class="explanation">Calling the <a href="https://docs.samplecorp.app/docs/capture-ebt-payments-server-side#step-2-collect-a-customers-ebt-card-pin-front-end" target="_new">deferPaymentCapture</a> function to capture an EBT PIN for future use may return this error code.</p>		  
+			<div class="troubleshooting">Do either or both of the following:
+			 <ul>
+			  <li>Verify that the <code>ref</code> is correct.</li>
+			  <li>Verify the merchant ABC number.</li>
+			 </ul>
+			</div>
+		  </div>
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">settlement_greater_than_amount
+  </p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">{merchant_fixed_settlement} + {platform_fixed_settlement} must be equal to or less than the amount charged. Fixed settlement charged of {amount} is greater than amount of {amount}</p>
+			<p class="explanation">The combined fixed settlement charges for the merchant and the platform exceed the permitted charge amount.</p>		  
+			<p class="troubleshooting">Update either or both of the fixed settlement charges to a total that is less than or equal to the permitted charge amount.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">too_many_requests</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Request was throttled, please try again later.</p>
+			<p class="explanation">Calling the <a href="https://docs.samplecorp.app/docs/capture-ebt-payments-server-side#step-2-collect-a-customers-ebt-card-pin-front-end" target="_new">deferPaymentCapture</a> function too many times in a period can exceed the rate limit.</p>
+			<p class="troubleshooting">Wait five minutes, then try again.</p>
+		  </div>
+		  <p class="additional_ts">For information about how rate limits may affect request submissions, see the <a href="https://docs.samplecorp.app/reference/request-limits" target="_new">request limits</a> documentation.</p>
+		</div>
+	  </div>	
+	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">unknown_server_error</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">Unknown exception from EBT network</p>
+			<p class="explanation">This is an issue with the Samplecorp service.</p>		  
+			<p class="troubleshooting">Retry the request.</p>
+		  </div>
+		</div>
+	  </div>	
+	
+	  <div class="error-item" data-attributes="SDKPayEP" instore="false">
+		<p class="label">user_error</p> 
+
+		<div class="flex-container">
+		  <div class="error-message">
+			<p class="message-text">A customer submitted incorrect or incomplete information</p>
+		   <p class="explanation">Submitting a <a href="https://docs.samplecorp.app/docs/capture-ebt-payments-server-side#step-2-collect-a-customers-ebt-card-pin-front-end" target="_new">deferPaymentCapture</a> request when the customer has not provided complete information can return this message.</p>	  
+			<div class="troubleshooting">
+			  <ol>
+				  <li>Evaluate the submitted information for completeness.</li>
+				  <li>Prompt the user to make the necessary corrections and try again. For example, in the case of an incorrect PIN, you could prompt them with a message like "Invalid EBT card PIN entered. Please enter your 4-digit PIN."</li>
+			  </ol>
+			</div>
+		  </div>
+		</div>
+	  </div>											
+		
+  </div>
+
+  <!--This section should stay at the bottom regardless of which tab is showing -->
+  <div class="feedback-wrapper">
+  <div class="feedback">
+	<div>Help us help you with even better documentation!<br />Did you find what you were looking for?</div>
+	<div align="center">
+	  <a href="mailto:noone@nowhere.com?subject=Feedback%20on%20page%20{page}&body=Found%20what%20I%20was%20looking%20for!%20Additional%20feedback:" class="feedback_button">Yes</a> |
+	  <a href="mailto:noone@nowhere.com?subject=Feedback%20on%20page%20{page}&body=Did%20not%20find%20what%20I%20was%20looking%20for!%20I%20was%20looking%20for:" class="feedback_button">No</a>
+	</div>
+  </div>
+  </div>
+  </div>
+</div>
+</body>
+
+
+</html>
